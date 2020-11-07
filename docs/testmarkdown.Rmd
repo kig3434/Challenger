@@ -24,9 +24,7 @@ knitr::kable(summary(launch))
 ```
 
 
-
-
-```{r lm, echo=False, tidy=TRUE}
+```{r lm, echo=TRUE, tidy=TRUE}
 lm1 <- lm(distress_ct ~ temperature, data = launch)
 lm2 <- lm(distress_ct ~ temperature + pressure, data = launch)
 lm3 <- lm(distress_ct ~ temperature * pressure, data = launch) 

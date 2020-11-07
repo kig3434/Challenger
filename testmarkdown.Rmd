@@ -1,0 +1,43 @@
+---
+title: "Regression"
+author: "Kevin Greenberg"
+date: "11/7/2020"
+output:
+  html_document: default
+  pdf_document: default
+---
+# Header1 {#anchor}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stats)
+library(tidyverse)
+library(sjPlot)
+launch <- read.csv("challenger.csv")
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r challenger, comment = '', echo=FALSE}
+knitr::kable(summary(launch))
+```
+
+Jump to [Header 1](#anchor)
+<https://www.wix.com/dashboard/30507eab-372c-4943-9810-81c5ff07227a/home>
+
+```{r lm, echo=TRUE, tidy=TRUE}
+lm1 <- lm(distress_ct ~ temperature, data = launch)
+lm2 <- lm(distress_ct ~ temperature + pressure, data = launch)
+lm3 <- lm(distress_ct ~ temperature * pressure, data = launch) 
+tab_model(lm1,lm2,lm3, file="output.html")
+```
+
+```{r}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

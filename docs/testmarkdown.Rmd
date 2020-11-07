@@ -26,7 +26,7 @@ knitr::kable(summary(launch))
 
 
 
-```{r lm, echo=TRUE, tidy=TRUE}
+```{r lm, echo=False, tidy=TRUE}
 lm1 <- lm(distress_ct ~ temperature, data = launch)
 lm2 <- lm(distress_ct ~ temperature + pressure, data = launch)
 lm3 <- lm(distress_ct ~ temperature * pressure, data = launch) 
@@ -34,7 +34,21 @@ tab_model(lm1,lm2,lm3, file="output.html")
 ```
 Jump to [top](#anchortop)
 
-```{r}
+The different linear regression models do not significantly vary, indicating the simplest model is the most effective in terms accounting for variance and efficiency.
+```{r lm compaison, echo=FALSE}
+knitr::kable(anova(lm1, lm2, lm3))
+```
+
+```{r plots, echo=FALSE}
+launch$distress_ct <- as.factor(launch$distress_ct)
+launch$pressure <- as.factor(launch$pressure)
+
+ggplot(launch, aes(x=distress_ct, y=temperature)) + 
+  geom_point(aes(shape=pressure, col=pressure)) +
+  labs(y="Temperature (F)", 
+       x="Number of distressed o-rings", 
+       title="Number of distressed o-rings by temperature", 
+       caption = "Source: challenger.csv")
 
 ```
 

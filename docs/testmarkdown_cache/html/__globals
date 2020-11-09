@@ -1,0 +1,5 @@
+challenger	::	launch	summary
+lm	~	$	$<-	as.character	as.numeric	lm	tab_model
+lm compaison	::	anova	lm1	lm2	lm3
+plots	$	$<-	aes	as.factor	distress_ct	element_text	geom_point	ggplot	labs	position_jitterdodge	pressure	temperature	theme	theme_calc
+prediction	data.frame	lm1	options	predict

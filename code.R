@@ -5,7 +5,8 @@ library(tidyverse)
 library(ggthemes)
 
 #Load data
-launch <- read.csv("~/Desktop/Portfolio/Challengervc/docs/challenger.csv")
+launch <- read.csv("C:/Users/kevin/Desktop/Portfolio/Challenger/docs/challenger.csv")
+
 
 #Summary stats
 summary(launch)

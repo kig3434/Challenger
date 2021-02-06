@@ -7,8 +7,8 @@ output:
   pdf_document: default
 ---
 # Overview of the dataset {#anchortop}
-The dataset looks at the challenger test flights, specifically the o-rings that were under stress based on the temperature and pressure. The purpose of here is to provide a simple report for presenting basic visualizations, statitics, and prediction for the dataset. 
-#
+The data set looks at the challenger test flights, specifically the o-rings that were under distressed based on the temperature and pressure. The purpose of here is to provide a simple report for presenting basic visualizations, statistics, and prediction for the what leads to an o-ring being distressed. 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(stats)
@@ -37,24 +37,24 @@ launch <- read.csv("challenger.csv")
 ```{r challenger, comment = '', echo=FALSE}
 knitr::kable(summary(launch))
 ```
-#
+
 ### Visualize the data
-We see that as the temperature decreases and the pressure increases, the likelihood of o-ring distress increases.
-#
+We see from the trend line that likelihood of o-ring distress decreases as the temperature increases. In addition, from the pressure we see that as pressure increase (blue squares) the likelihood of o-ring distress increases. In short, when there is high pressure and low temperature it is more likely for an o-ring to be in distress.
 ```{r plots, echo=FALSE}
-launch$distress_ct <- as.factor(launch$distress_ct)
 launch$pressure <- as.factor(launch$pressure)
 
-ggplot(launch, aes(x = distress_ct, y = temperature)) + 
+ggplot(launch, aes(y = distress_ct, x = temperature)) + 
   geom_point(aes(shape = pressure, color = pressure), position = position_jitterdodge(dodge.width=0.4), size = 3) +
-  labs(y="Temperature (˚F)", 
-       x="Number of distressed o-rings(out of 6)", 
+  labs(x="Temperature (˚F)", 
+       y="Number of distressed o-rings(out of 6)", 
        title="Number of distressed o-rings by temperature", 
        caption = "Source: challenger.csv",
        color = "Pressure",
        shape = "Pressure") +
       theme_calc() +
-      theme(plot.title = element_text(hjust = 0.5))
+      theme(plot.title = element_text(hjust = 0.5)) +
+     geom_smooth(method='lm', se = FALSE, color = 'black')
+
 
 ```
 
@@ -69,28 +69,20 @@ lm2 <- lm(distress_ct ~ temperature + pressure, data = launch)
 lm3 <- lm(distress_ct ~ temperature * pressure, data = launch) 
 tab_model(lm1,lm2,lm3, file="output.html")
 ```
-#
-###Comparing the models
-The different linear regression models do not significantly vary, indicating the simplest model is the most effective in terms accounting for variance and efficiency.
-
-#
+### Comparing the models
+The different linear regression models do not significantly vary, indicating the simplest model is the most effective in terms accounting for variance and efficiency. That being, when the temperature is below 64˚F at least 1 o-ring was distressed. In fact, 71.4% of the time an o-ring was distressed was when the temperature was below 64˚F.
 
 ```{r lm compaison, echo=FALSE}
 knitr::kable(anova(lm1, lm2, lm3))
 ```
 
 
-```{r prediction, echo=FALSE, comment=''}
+```{r prediction, echo=FALSE, comment='', include=FALSE}
 options(digits=2)
 p <- predict(lm1, data.frame(temperature = 36))
+round(p,2)
 ```
-#
-###Prediction on launch day:
-The temperature during launch was 36˚F and based on our basic linear regression it is predicted `r p` o-rings will be distressed. This indicates that even with a simple algorithm it can be predicted that launchng the challenger on a cold day was dangerous.
-
-
-#### Given the dataset only has 23 observations, there is no need to run a more complex alogrithm that requires training, validation and test datasets.
+### Prediction on launch day:
+The temperature during launch was 36˚F and based on our basic linear regression it is predicted `r p` o-rings will be distressed. This indicates that even with a simple algorithm it can be predicted that launching the challenger on a cold day was dangerous.Given the dataset only has 23 observations, there is no need to run a more complex algorithm that requires training, validation and test data sets.
 
 Jump to [top](#anchortop)
-###
-Return to [Kevin Greenberg's Portfolio](https://www.espn.com/) 

@@ -42,6 +42,9 @@ knitr::kable(summary(launch))
 We see from the trend line that likelihood of o-ring distress decreases as the temperature increases. In addition, from the pressure we see that as pressure increase (blue squares) the likelihood of o-ring distress increases. In short, when there is high pressure and low temperature it is more likely for an o-ring to be in distress.
 
 ```{r plots, echo=FALSE, width = 15}
+hook_plot = knit_hooks$get('plot')
+knit_hooks$set(plot = function(x, options) paste('\n', hook_plot(x, options), sep = ''))
+
 launch$pressure <- as.factor(launch$pressure)
 
 ggplot(launch, aes(y = distress_ct, x = temperature)) + 
